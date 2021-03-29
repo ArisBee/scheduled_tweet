@@ -26,8 +26,6 @@ jobs:
   brakeman:
       executor: ruby/default
       steps:
-        - attach_workspace:
-            at: ~/
         - run:
             name: Brakeman
             command: bundle exec brakeman
@@ -35,8 +33,6 @@ jobs:
   licensed:
       executor: ruby/default
       steps:
-        - attach_workspace:
-            at: ~/
         - run: bundle exec licensed cache
         - run: bundle exec licensed status
 
