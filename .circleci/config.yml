@@ -12,6 +12,7 @@ jobs:
       - run:
           name: Force Bundler Version
           command: |
+            sudo apt-get install libsqlite3-dev
             sudo gem update --system
             gem install bundler
             bundle check || bundle config set --local path 'vendor/bundle' || bundle install --jobs=6 --retry=3
@@ -39,7 +40,7 @@ jobs:
 
 workflows:
   version: 2
-  integration:
+  brakeman:
     jobs:
       - build
       - brakeman:
