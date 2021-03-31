@@ -1,13 +1,13 @@
 ---
 name: mimemagic
-version: 0.3.5
+version: 0.3.10
 type: bundler
 summary: Fast mime detection by extension or content
-homepage: https://github.com/minad/mimemagic
+homepage: https://github.com/mimemagicrb/mimemagic
 license: mit
 licenses:
 - sources: LICENSE
-  text: |
+  text: |-
     The MIT License
 
     Copyright (c) 2011 Daniel Mendler
@@ -29,4 +29,6 @@ licenses:
     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
     THE SOFTWARE.
+- sources: README.md
+  text: "{file:LICENSE MIT}"
 notices: []
