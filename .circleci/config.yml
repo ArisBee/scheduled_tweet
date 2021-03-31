@@ -71,8 +71,8 @@ jobs:
       - ruby/bundle-install
       - run: fossa init
       - run: 
-        command: fossa analyze
-        working_directory: /home/circleci/project/
+          command: fossa analyze
+          working_directory: ~/project
 
 workflows:
   version: 2
