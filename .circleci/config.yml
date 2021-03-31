@@ -54,7 +54,7 @@ jobs:
     executor: ruby/default
     steps:
       - run: |
-          curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/
+          curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | bash
       - checkout
       - run:
           name: Force Bundler Version
@@ -74,7 +74,7 @@ jobs:
 
 workflows:
   version: 2
-  brakeman:
+  integration:
     jobs:
       - fossa
     #  - brakeman
