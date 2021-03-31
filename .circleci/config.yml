@@ -48,9 +48,34 @@ jobs:
       - run: bundle exec licensed cache
       - run: bundle exec licensed status
 
+  fossa:
+    docker:
+      - image: cimg/ruby:3.0.0
+    executor: ruby/default
+    steps:
+      - run: |
+          curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/
+      - checkout
+      - run:
+          name: Force Bundler Version
+          command: |
+            sudo apt-get update && sudo apt-get upgrade
+            sudo apt-get install sqlite3 libsqlite3-dev
+            sudo apt-get install cmake
+            sudo gem update --system
+            gem install bundler
+            bundle check || bundle config set --local path 'vendor/bundle' || bundle install --jobs=6 --retry=3
+      - run: 
+          name: Which bundler?
+          command: bundle -v
+      - ruby/bundle-install
+      - run: fossa init
+      - run: fossa analyze
+
 workflows:
   version: 2
   brakeman:
     jobs:
-      - brakeman
-      - licensed
+      - fossa
+    #  - brakeman
+    #  - licensed
