@@ -8,6 +8,10 @@ allowed:
   - 0bsd
   - unlicense
 
+ignored:
+  yarn:
+    - json-schema
+
 reviewed:
   bundler:
     - activerecord
@@ -28,18 +32,44 @@ reviewed:
     - atob
     - bcrypt-pbkdf
     - block-stream
-    - cacache-12.0.4
-    - cacache-15.0.5
+    - cacache*
     - caniuse-lite
     - case-sensitive-paths-webpack-plugin
     - color-convert
     - dom-serializer
     - domain-browser
-    - estraverse-4.3.0
-    - estraverse-5.2.0
+    - estraverse*
     - esutils
     - figgy-pudding
     - fs.realpath
     - glob
     - ieee754
     - json-parse-even-better-errors
+    - electron-to-chromium
+    - lodash
+    - lodash._reinterpolate
+    - lodash.debounce
+    - lodash.get
+    - lodash.has
+    - lodash.memoize
+    - lodash.template
+    - lodash.templatesettings
+    - lodash.uniq
+    - minizlib
+    - nan
+    - neo-async
+    - normalize-package-data
+    - pako
+    - path-browserify
+    - postcss-color-gray
+    - postcss-load-config
+    - postcss-loader
+    - qs
+    - readdirp*
+    - sax
+    - serialize-javascript*
+    - sprintf-js
+    - ssri*
+    - svgo
+    - terser*
+
