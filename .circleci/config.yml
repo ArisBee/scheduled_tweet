@@ -52,5 +52,5 @@ workflows:
   version: 2
   brakeman:
     jobs:
-      - brakeman:
-      - licensed:
+      - brakeman
+      - licensed
