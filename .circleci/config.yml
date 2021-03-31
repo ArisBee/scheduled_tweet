@@ -70,7 +70,9 @@ jobs:
           command: bundle -v
       - ruby/bundle-install
       - run: fossa init
-      - run: fossa analyze
+      - run: 
+        command: fossa analyze
+        working_directory: /home/circleci/project/
 
 workflows:
   version: 2
