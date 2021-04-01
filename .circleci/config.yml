@@ -32,8 +32,8 @@ jobs:
             gem install rails
             rails webpacker:install
       - persist_to_workspace:
-          root: /root/project
-          paths: src/public/
+          root: .
+          paths: .
 
   brakeman:
     docker:
@@ -41,10 +41,10 @@ jobs:
     executor: ruby/default
     steps:
       - attach_workspace:
-          at: /root/project
+          at: .
       - run:
           name: Brakeman
-          command: bundle exec brakeman
+          command: bundle exec brakeman -o report.html
       
   licensed:
     docker:
