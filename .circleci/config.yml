@@ -39,7 +39,7 @@ jobs:
     docker:
       - image: cimg/ruby:3.0.0
     executor: ruby/default
-    steps:ß
+    steps:
       - attach_workspace:
           at: /root/project
       - run:
