@@ -39,7 +39,7 @@ jobs:
     docker:
       - image: cimg/ruby:3.0.0
     executor: ruby/default
-    steps:
+    steps:ß
       - attach_workspace:
           at: /root/project
       - run:
@@ -75,12 +75,12 @@ workflows:
   integration:
     jobs:
       - build
-      - brakeman
-        requires: 
-          - build
-      - licensed
-        requires:
-          - brakeman
+      - brakeman:
+          requires: 
+            - build
+      - licensed:
+          requires:
+            - brakeman
     #  - fossa
     #    requires:
     #      - brakeman
