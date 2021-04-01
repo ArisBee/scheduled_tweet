@@ -74,6 +74,7 @@ jobs:
           command: |
             sudo apt-get install nodejs
             sudo apt-get install yarn
+            gem install rails
             rails webpacker:install
       - run: fossa init
       - run: 
