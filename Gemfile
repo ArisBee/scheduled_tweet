@@ -62,5 +62,6 @@ gem "brakeman"
 gem 'licensed', :group => 'development'
 gem "omniauth-twitter", "~> 1.4"
 gem "omniauth-rails_csrf_protection", "~> 1.0"
+gem 'rexml'
 
 gem 'license_finder', :group => :development
