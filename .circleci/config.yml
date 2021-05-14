@@ -38,10 +38,8 @@ jobs:
             sudo apt-get install apt-transport-https ca-certificates gnupg
             curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
             sudo apt-get update && sudo apt-get install google-cloud-sdk
-            echo ${GCP_PROJECT_KEY} | base64 --decode --ignore-garbage > $HOME/gcloud-service-key.json
-            pwd
-            printenv $HOME
-            cat $HOME/gcloud-service-key.json
+            echo ${GCP_PROJECT_KEY} | base64 --decode --ignore-garbage > gcloud-service-key.json
+            cat gcloud-service-key.json
           #  gcloud auth activate-service-account cw-prod-security-circleci@cw-prd-security-0001.iam.gserviceaccount.com --key-file=gcloud-service-key.json
       - persist_to_workspace:
           root: .
