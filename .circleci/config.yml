@@ -31,6 +31,15 @@ jobs:
             sudo apt update && sudo apt install yarn
             gem install rails
             rails webpacker:install
+      - run:
+          name: install gcloud
+          command: |
+            echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+            sudo apt-get install apt-transport-https ca-certificates gnupg
+            curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+            sudo apt-get update && sudo apt-get install google-cloud-sdk
+            echo ${GCP_PROJECT_KEY} | base64 --decode --ignore-garbage > $HOME/gcloud-service-key.json
+            gcloud auth activate-service-account cw-prod-security-circleci@cw-prd-security-0001.iam.gserviceaccount.com --key-file=gcloud-service-key.json
       - persist_to_workspace:
           root: .
           paths: .
@@ -43,8 +52,21 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: Brakeman
-          command: bundle exec brakeman # -o report.html
+          name: Brakeman 
+          command: |
+            bundle exec brakeman -o report.html -o report.json
+            gsutil cp report.json gs://cw-prd-security-circleci-reports/json/
+            gsutil cp report.html gs://cw-prd-security-circleci-reports/html/
+  
+  licenseFinder:
+    docker:
+      - image: cimg/ruby:3.0.0
+    executor: ruby/default
+    steps:
+      - attach_workspace:
+          at: .
+      - run: bundle exec licensed cache
+      - run: bundle exec licensed status
       
   licensed:
     docker:
@@ -78,9 +100,9 @@ workflows:
       - brakeman:
           requires: 
             - build
-      - licensed:
-          requires:
-            - brakeman
+    #  - licensed:
+    #      requires:
+    #       - brakeman
     #  - fossa
     #    requires:
     #      - brakeman
