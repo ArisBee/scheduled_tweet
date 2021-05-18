@@ -55,9 +55,10 @@ jobs:
       - run:
           name: Brakeman 
           command: |
-            bundle exec brakeman -o report.html -o report.json
-            gsutil cp report.json gs://cw-prd-security-circleci-reports/json/
-            gsutil cp report.html gs://cw-prd-security-circleci-reports/html/
+            export DATE=$( date '+%F_%H:%M')
+            bundle exec brakeman -o brakeman_report_$DATE.html -o brakeman_report_$DATE.json
+            gsutil cp brakeman_report*.json gs://cw-prd-security-circleci-reports/json/
+            gsutil cp brakeman_report*.html gs://cw-prd-security-circleci-reports/html/
   
   licenseFinder:
     docker:
@@ -66,8 +67,24 @@ jobs:
     steps:
       - attach_workspace:
           at: .
-      - run: bundle exec licensed cache
-      - run: bundle exec licensed status
+      - run:
+         name: install gcloud
+         command: |
+           echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+           sudo apt-get install apt-transport-https ca-certificates gnupg
+           curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+           sudo apt-get update && sudo apt-get install google-cloud-sdk
+           echo ${GCP_PROJECT_KEY} | base64 --decode --ignore-garbage > gcloud-service-key.json
+           gcloud auth activate-service-account cw-prod-security-circleci@cw-prd-security-0001.iam.gserviceaccount.com --key-file=gcloud-service-key.json
+           gcloud config set project 'cw-prd-security-0001'    
+      - run:
+          name: License Finder 
+          command: |
+            chmod +x scripts/setLicense.sh
+            ./scripts/setLicense.sh
+            export DATE=$( date '+%F_%H:%M')
+            bundle exec license_finder -q --format=json > license_finder_$DATE.json
+            gsutil cp license_finder*.json gs://cw-prd-security-circleci-reports/json/
       
   licensed:
     docker:
@@ -101,9 +118,9 @@ workflows:
       - brakeman:
           requires: 
             - build
-    #  - licensed:
-    #      requires:
-    #       - brakeman
+      - licenseFinder:
+          requires:
+           - build
     #  - fossa
     #    requires:
     #      - brakeman
