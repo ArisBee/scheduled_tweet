@@ -1,0 +1,55 @@
+---
+- - :permit
+  - MIT
+  - :who:
+    :why:
+    :versions: []
+    :when: 2021-05-18 07:43:29.003058000 Z
+- - :permit
+  - ISC
+  - :who:
+    :why:
+    :versions: []
+    :when: 2021-05-18 07:43:30.212293000 Z
+- - :permit
+  - Apache 2.0
+  - :who:
+    :why:
+    :versions: []
+    :when: 2021-05-18 07:43:31.394392000 Z
+- - :permit
+  - Simplified BSD
+  - :who:
+    :why:
+    :versions: []
+    :when: 2021-05-18 07:43:32.628079000 Z
+- - :permit
+  - New BSD
+  - :who:
+    :why:
+    :versions: []
+    :when: 2021-05-18 07:43:33.817915000 Z
+- - :permit
+  - WTFPL
+  - :who:
+    :why:
+    :versions: []
+    :when: 2021-05-18 07:43:34.987529000 Z
+- - :permit
+  - "(MIT AND BSD-3-Clause)"
+  - :who:
+    :why:
+    :versions: []
+    :when: 2021-05-18 07:43:36.133786000 Z
+- - :permit
+  - Simplified BSD ruby
+  - :who:
+    :why:
+    :versions: []
+    :when: 2021-05-18 07:43:37.371806000 Z
+- - :permit
+  - CC0-1.0
+  - :who:
+    :why:
+    :versions: []
+    :when: 2021-05-18 07:43:38.609741000 Z
