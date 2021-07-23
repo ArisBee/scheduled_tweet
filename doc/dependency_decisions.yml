@@ -53,3 +53,117 @@
     :why:
     :versions: []
     :when: 2021-05-18 07:43:38.609741000 Z
+- - :permit
+  - MIT
+  - :who:
+    :why:
+    :versions: []
+    :when: 2021-07-22 09:25:15.374610000 Z
+- - :permit
+  - ISC
+  - :who:
+    :why:
+    :versions: []
+    :when: 2021-07-22 09:25:16.660595000 Z
+- - :permit
+  - Apache 2.0
+  - :who:
+    :why:
+    :versions: []
+    :when: 2021-07-22 09:25:17.895389000 Z
+- - :permit
+  - Simplified BSD
+  - :who:
+    :why:
+    :versions: []
+    :when: 2021-07-22 09:25:19.132949000 Z
+- - :permit
+  - New BSD
+  - :who:
+    :why:
+    :versions: []
+    :when: 2021-07-22 09:25:20.376305000 Z
+- - :permit
+  - WTFPL
+  - :who:
+    :why:
+    :versions: []
+    :when: 2021-07-22 09:25:21.745474000 Z
+- - :permit
+  - "(MIT AND BSD-3-Clause)"
+  - :who:
+    :why:
+    :versions: []
+    :when: 2021-07-22 09:25:23.122793000 Z
+- - :permit
+  - Simplified BSD ruby
+  - :who:
+    :why:
+    :versions: []
+    :when: 2021-07-22 09:25:24.545004000 Z
+- - :permit
+  - CC0-1.0
+  - :who:
+    :why:
+    :versions: []
+    :when: 2021-07-22 09:25:25.785146000 Z
+- - :permit
+  - MIT
+  - :who:
+    :why:
+    :versions: []
+    :when: 2021-07-22 10:07:36.737946000 Z
+- - :permit
+  - ISC
+  - :who:
+    :why:
+    :versions: []
+    :when: 2021-07-22 10:07:37.964557000 Z
+- - :permit
+  - Apache 2.0
+  - :who:
+    :why:
+    :versions: []
+    :when: 2021-07-22 10:07:39.180316000 Z
+- - :permit
+  - Simplified BSD
+  - :who:
+    :why:
+    :versions: []
+    :when: 2021-07-22 10:07:40.401325000 Z
+- - :permit
+  - New BSD
+  - :who:
+    :why:
+    :versions: []
+    :when: 2021-07-22 10:07:41.618404000 Z
+- - :permit
+  - WTFPL
+  - :who:
+    :why:
+    :versions: []
+    :when: 2021-07-22 10:07:43.004997000 Z
+- - :permit
+  - "(MIT AND BSD-3-Clause)"
+  - :who:
+    :why:
+    :versions: []
+    :when: 2021-07-22 10:07:44.338000000 Z
+- - :permit
+  - Simplified BSD ruby
+  - :who:
+    :why:
+    :versions: []
+    :when: 2021-07-22 10:07:45.750842000 Z
+- - :permit
+  - CC0-1.0
+  - :who:
+    :why:
+    :versions: []
+    :when: 2021-07-22 10:07:46.996274000 Z
+- - :permit
+  - Brakeman Public Use License
+  - :who:
+    :why:
+    :versions: []
+    :when: 2021-07-22 10:07:48.213132000 Z
