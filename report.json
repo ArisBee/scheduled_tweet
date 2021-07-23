@@ -1,3 +1,0 @@
-
-Dependencies that need approval:
-{"dependencies":[{"name":"brakeman","version":"5.0.1","licenses":["Brakeman Public Use License"]},{"name":"caniuse-lite","version":"1.0.30001199","licenses":["CC-BY-4.0"]},{"name":"caniuse-lite","version":"1.0.30001228","licenses":["CC-BY-4.0"]},{"name":"pako","version":"1.0.11","licenses":["(MIT AND Zlib)"]},{"name":"pathname-common_prefix","version":"0.0.1","licenses":["unknown"]},{"name":"tslib","version":"1.14.1","licenses":["BSD Zero Clause License"]}]}

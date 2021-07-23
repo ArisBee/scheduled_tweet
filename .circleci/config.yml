@@ -46,7 +46,7 @@ jobs:
          name: install gcloud
          command: |
            echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-           sudo apt-get install apt-transport-https ca-certificates gnupg
+           sudo apt-get install apt-transport-https ca-certificates gnupg jq
            curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
            sudo apt-get update && sudo apt-get install google-cloud-sdk
            echo ${GCP_PROJECT_KEY} | base64 --decode --ignore-garbage > gcloud-service-key.json
@@ -56,9 +56,14 @@ jobs:
           name: Brakeman 
           command: |
             export DATE=$( date '+%F_%H:%M')
-            bundle exec brakeman -o brakeman_report_$DATE.html -o brakeman_report_$DATE.json
-            gsutil cp brakeman_report*.json gs://cw-prd-security-circleci-reports/json/
-            gsutil cp brakeman_report*.html gs://cw-prd-security-circleci-reports/html/
+            jq -n '{"app":"\($app)", "date":"\($date)", "tag":"\($tag)"}' \
+            --arg app $APP \
+            --arg date $DATE \
+            --arg tag $TAG > json_string.json
+            bundle exec brakeman -o brakeman_report_$DATE.html -o brakeman_report.json
+            jq -s add brakeman_report.json json_string.json > brakeman_report_$DATE.json
+            gsutil cp brakeman_report_$DATE.json gs://cw-prd-security-circleci-reports/brakeman/$APP/json/
+            gsutil cp brakeman_report_$DATE.html gs://cw-prd-security-circleci-reports/brakeman/$APP/html/
   
   licenseFinder:
     docker:
@@ -71,20 +76,28 @@ jobs:
          name: install gcloud
          command: |
            echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-           sudo apt-get install apt-transport-https ca-certificates gnupg
+           sudo apt-get install apt-transport-https ca-certificates gnupg jq
            curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
-           sudo apt-get update && sudo apt-get install google-cloud-sdk
+           sudo apt-get update && sudo apt-get install google-cloud-sdkbundle 
            echo ${GCP_PROJECT_KEY} | base64 --decode --ignore-garbage > gcloud-service-key.json
            gcloud auth activate-service-account cw-prod-security-circleci@cw-prd-security-0001.iam.gserviceaccount.com --key-file=gcloud-service-key.json
            gcloud config set project 'cw-prd-security-0001'    
       - run:
-          name: License Finder 
+          name: License Finder
+          shell: /bin/bash 
           command: |
             chmod +x scripts/setLicense.sh
             ./scripts/setLicense.sh
             export DATE=$( date '+%F_%H:%M')
-            bundle exec license_finder -q --format=json > license_finder_$DATE.json
-            gsutil cp license_finder*.json gs://cw-prd-security-circleci-reports/json/
+            jq -n '{"app":"\($app)", "date":"\($date)", "tag":"\($tag)"}' \
+            --arg app $APP \
+            --arg date $DATE \
+            --arg tag $TAG > json_string.json
+            bundle exec license_finder -q --format=json | sed -e 1,2d > license_finder.json
+            bundle exec license_finder report --format html > license_finder_$DATE.html 
+            jq -s add license_finder.json json_string.json > license_finder_$DATE.json
+            gsutil cp license_finder_$DATE.json gs://cw-prd-security-circleci-reports/license-finder/$APP/json/
+            gsutil cp license_finder_$DATE.html gs://cw-prd-security-circleci-reports/license-finder/$APP/html/
       
   licensed:
     docker:
