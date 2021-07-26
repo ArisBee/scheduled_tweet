@@ -60,7 +60,7 @@ jobs:
             --arg app $APP \
             --arg date $DATE \
             --arg tag $TAG > json_string.json
-            bundle exec brakeman -o brakeman_report_$DATE.html -o brakeman_report.json
+            bundle exec brakeman --no-exit-on-error -o brakeman_report_$DATE.html -o brakeman_report.json
             jq -s add brakeman_report.json json_string.json > brakeman_report_$DATE.json
             gsutil cp brakeman_report_$DATE.json gs://cw-prd-security-circleci-reports/brakeman/$APP/json/
             gsutil cp brakeman_report_$DATE.html gs://cw-prd-security-circleci-reports/brakeman/$APP/html/
