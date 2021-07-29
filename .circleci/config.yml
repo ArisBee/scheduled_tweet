@@ -62,8 +62,8 @@ jobs:
             --arg tag $TAG > json_string.json
             bundle exec brakeman --no-exit-on-error -o brakeman_report_$DATE.html -o brakeman_report.json
             jq -s add brakeman_report.json json_string.json > brakeman_report_$DATE.json
-            gsutil cp brakeman_report_$DATE.json gs://cw-prd-security-circleci-reports/brakeman/$APP/json/
-            gsutil cp brakeman_report_$DATE.html gs://cw-prd-security-circleci-reports/brakeman/$APP/html/
+            gsutil cp brakeman_report_$DATE.json gs://cw-prd-security-circleci-reports/brakeman/json/$APP/
+            gsutil cp brakeman_report_$DATE.html gs://cw-prd-security-circleci-reports/brakeman/html/$APP/
   
   licenseFinder:
     docker:
@@ -96,8 +96,8 @@ jobs:
             bundle exec license_finder -q --format=json | sed -e 1,2d > license_finder.json
             bundle exec license_finder report --format html > license_finder_$DATE.html 
             jq -s add license_finder.json json_string.json > license_finder_$DATE.json
-            gsutil cp license_finder_$DATE.json gs://cw-prd-security-circleci-reports/license-finder/$APP/json/
-            gsutil cp license_finder_$DATE.html gs://cw-prd-security-circleci-reports/license-finder/$APP/html/
+            gsutil cp license_finder_$DATE.json gs://cw-prd-security-circleci-reports/license-finder/json/$APP/
+            gsutil cp license_finder_$DATE.html gs://cw-prd-security-circleci-reports/license-finder/html/$APP/
       
   licensed:
     docker:
