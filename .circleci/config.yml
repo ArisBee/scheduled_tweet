@@ -1,0 +1,139 @@
+version: 2.1
+orbs:
+  ruby: circleci/ruby@0.1.2 
+
+jobs:
+  build:
+    docker:
+      - image: cimg/ruby:3.0.0
+    executor: ruby/default
+    steps:
+      - checkout
+      - run:
+          name: Force Bundler Version
+          command: |
+            sudo apt-get update && sudo apt-get upgrade
+            sudo apt-get install sqlite3 libsqlite3-dev
+            sudo apt-get install cmake
+            sudo gem update --system
+            gem install bundler
+            bundle check || bundle config set --local path 'vendor/bundle' || bundle install --jobs=6 --retry=3
+      - run: 
+          name: Which bundler?
+          command: bundle -v
+      - ruby/bundle-install
+      - run:
+          name: install webpack
+          command: |
+            sudo apt-get install nodejs
+            curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+            echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+            sudo apt update && sudo apt install yarn
+            gem install rails
+            rails webpacker:install 
+      - persist_to_workspace:
+          root: .
+          paths: .
+
+  brakeman:
+    docker:
+      - image: cimg/ruby:3.0.0
+    executor: ruby/default
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+         name: install gcloud
+         command: |
+           echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+           sudo apt-get install apt-transport-https ca-certificates gnupg jq
+           curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+           sudo apt-get update && sudo apt-get install google-cloud-sdk
+           echo ${GCP_PROJECT_KEY} | base64 --decode --ignore-garbage > gcloud-service-key.json
+           gcloud auth activate-service-account ${SERVICE_ACCOUNT_NAME} --key-file=gcloud-service-key.json
+           gcloud config set project ${GCP_PROJECT}    
+      - run:
+          name: Brakeman 
+          command: |
+            export DATE=$( date '+%F_%H:%M')
+            jq -n '{"app":"\($app)", "date":"\($date)", "tag":"\($tag)"}' \
+            --arg app $APP \
+            --arg date $DATE \
+            --arg tag $TAG > json_string.json
+            bundle exec brakeman --no-exit-on-error -o brakeman_report_$DATE.html -o brakeman_report.json
+            jq -s add brakeman_report.json json_string.json > brakeman_report_$DATE.json
+            gsutil cp brakeman_report_$DATE.json gs://${BUCKET_NAME}/brakeman/json/$APP/
+            gsutil cp brakeman_report_$DATE.html gs://${BUCKET_NAME}/brakeman/html/$APP/
+  
+  licenseFinder:
+    docker:
+      - image: cimg/ruby:3.0.0
+    executor: ruby/default
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+         name: install gcloud
+         command: |
+           echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+           sudo apt-get install apt-transport-https ca-certificates gnupg jq
+           curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+           sudo apt-get update && sudo apt-get install google-cloud-sdk
+           echo ${GCP_PROJECT_KEY} | base64 --decode --ignore-garbage > gcloud-service-key.json
+           gcloud auth activate-service-account ${SERVICE_ACCOUNT_NAME} --key-file=gcloud-service-key.json
+           gcloud config set project ${GCP_PROJECT}    
+      - run:
+          name: License Finder
+          shell: /bin/bash 
+          command: |
+            chmod +x scripts/setLicense.sh
+            ./scripts/setLicense.sh
+            export DATE=$( date '+%F_%H:%M')
+            jq -n '{"app":"\($app)", "date":"\($date)", "tag":"\($tag)"}' \
+            --arg app $APP \
+            --arg date $DATE \
+            --arg tag $TAG > json_string.json
+            bundle exec license_finder -q --format=json | sed -e 1,2d > license_finder.json
+            bundle exec license_finder report --format html > license_finder_$DATE.html 
+            jq -s add license_finder.json json_string.json > license_finder_$DATE.json
+            gsutil cp license_finder_$DATE.json gs://${BUCKET_NAME}/license-finder/json/$APP/
+            gsutil cp license_finder_$DATE.html gs://${BUCKET_NAME}/license-finder/html/$APP/
+      
+  licensed:
+    docker:
+      - image: cimg/ruby:3.0.0
+    executor: ruby/default
+    steps:
+      - attach_workspace:
+          at: .
+      - run: bundle exec licensed cache
+      - run: bundle exec licensed status
+
+  fossa:
+    docker:
+      - image: cimg/ruby:3.0.0
+    executor: ruby/default
+    steps:
+      - attach_workspace:
+          at: .
+      - run: |
+          curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | bash
+      - run: fossa init
+      - run: 
+          command: fossa analyze
+          working_directory: ~/project
+
+workflows:
+  version: 2
+  integration:
+    jobs:
+      - build
+      - brakeman:
+          requires: 
+            - build
+      - licenseFinder:
+          requires:
+           - build
+    #  - fossa
+    #    requires:
+    #      - build
