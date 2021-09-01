@@ -60,7 +60,7 @@ jobs:
             --arg app $APP \
             --arg date $DATE \
             --arg tag $TAG > json_string.json
-            bundle exec brakeman --no-exit-on-error -o brakeman_report_$DATE.html -o brakeman_report.json
+            bundle exec brakeman --no-progress --no-pager --no-exit-on-warn -o brakeman_report_$DATE.html -o brakeman_report.json
             jq -s add brakeman_report.json json_string.json > brakeman_report_$DATE.json
             gsutil cp brakeman_report_$DATE.json gs://${BUCKET_NAME}/brakeman/json/$APP/
             gsutil cp brakeman_report_$DATE.html gs://${BUCKET_NAME}/brakeman/html/$APP/
@@ -93,7 +93,7 @@ jobs:
             --arg app $APP \
             --arg date $DATE \
             --arg tag $TAG > json_string.json
-            bundle exec license_finder -q --format=json | sed -e 1,2d > license_finder.json
+            bundle exec license_finder -q --format=json | sed '$!d' > license_finder.json
             bundle exec license_finder report --format html > license_finder_$DATE.html 
             jq -s add license_finder.json json_string.json > license_finder_$DATE.json
             gsutil cp license_finder_$DATE.json gs://${BUCKET_NAME}/license-finder/json/$APP/
