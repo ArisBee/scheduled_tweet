@@ -61,9 +61,11 @@ gem "brakeman"
 # extension to check license compliance
 gem 'licensed', :group => 'development'
 gem "omniauth-twitter", "~> 1.4"
-gem "omniauth-rails_csrf_protection", "~> 1.0"
+gem "omniauth-rails_csrf_protection",
 gem 'rexml'
 
 gem 'license_finder', :group => :development
 
 gem "twitter", "~> 7.0"
+
+gem "sidekiq", "~> 6.2"
