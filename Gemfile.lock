@@ -80,6 +80,7 @@ GEM
       xpath (~> 3.2)
     childprocess (3.0.0)
     concurrent-ruby (1.1.9)
+    connection_pool (2.2.5)
     crass (1.0.6)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
@@ -156,11 +157,15 @@ GEM
       thread_safe (~> 0.3, >= 0.3.1)
     method_source (1.0.0)
     mini_mime (1.1.0)
+    mini_portile2 (2.5.3)
     minitest (5.14.4)
     msgpack (1.4.2)
     multipart-post (2.1.1)
     naught (1.1.0)
     nio4r (2.5.7)
+    nokogiri (1.11.7)
+      mini_portile2 (~> 2.5.0)
+      racc (~> 1.4)
     nokogiri (1.11.7-x86_64-darwin)
       racc (~> 1.4)
     nokogiri (1.11.7-x86_64-linux)
@@ -227,6 +232,7 @@ GEM
     rb-fsevent (0.11.0)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
+    redis (4.4.0)
     regexp_parser (2.1.1)
     reverse_markdown (1.4.0)
       nokogiri
@@ -252,6 +258,10 @@ GEM
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
     semantic_range (3.0.0)
+    sidekiq (6.2.2)
+      connection_pool (>= 2.2.2)
+      rack (~> 2.0)
+      redis (>= 4.2.0)
     simple_oauth (0.3.1)
     spring (2.1.1)
     sprockets (4.0.2)
@@ -309,6 +319,7 @@ GEM
     zeitwerk (2.4.2)
 
 PLATFORMS
+  ruby
   x86_64-darwin-19
   x86_64-darwin-20
   x86_64-linux
@@ -331,6 +342,7 @@ DEPENDENCIES
   rexml
   sass-rails (>= 6)
   selenium-webdriver
+  sidekiq (~> 6.2)
   spring
   sqlite3 (~> 1.4)
   turbolinks (~> 5)
