@@ -65,3 +65,5 @@ gem "omniauth-rails_csrf_protection", "~> 1.0"
 gem 'rexml'
 
 gem 'license_finder', :group => :development
+
+gem "twitter", "~> 7.0"
