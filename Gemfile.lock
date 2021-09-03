@@ -334,7 +334,7 @@ DEPENDENCIES
   license_finder
   licensed
   listen (~> 3.6)
-  omniauth-rails_csrf_protection (~> 1.0)
+  omniauth-rails_csrf_protection
   omniauth-twitter (~> 1.4)
   puma (~> 5.4)
   rack-mini-profiler (~> 2.0)
