@@ -56,10 +56,10 @@ jobs:
           name: Brakeman 
           command: |
             export DATE=$( date '+%F_%H:%M')
-            jq -n '{"app":"\($app)", "date":"\($date)", "tag":"\($tag)"}' \
+            jq -n '{"app":"\($app)", "date":"\($date)", "branch":"\($branch)"}' \
             --arg app $APP \
             --arg date $DATE \
-            --arg tag $TAG > json_string.json
+            --arg branch $CIRCLE_BRANCH > json_string.json
             bundle exec brakeman --no-progress --no-pager --no-exit-on-warn -o brakeman_report_$DATE.html -o brakeman_report.json
             jq -s add brakeman_report.json json_string.json > brakeman_report_$DATE.json
             gsutil cp brakeman_report_$DATE.json gs://${BUCKET_NAME}/brakeman/json/$APP/
@@ -89,10 +89,10 @@ jobs:
             chmod +x scripts/setLicense.sh
             ./scripts/setLicense.sh
             export DATE=$( date '+%F_%H:%M')
-            jq -n '{"app":"\($app)", "date":"\($date)", "tag":"\($tag)"}' \
+            jq -n '{"app":"\($app)", "date":"\($date)", "branch":"\($branch)"}' \
             --arg app $APP \
             --arg date $DATE \
-            --arg tag $TAG > json_string.json
+            --arg branch $CIRCLE_BRANCH > json_string.json
             bundle exec license_finder -q --format=json | sed '$!d' > license_finder.json
             bundle exec license_finder report --format html > license_finder_$DATE.html 
             jq -s add license_finder.json json_string.json > license_finder_$DATE.json
