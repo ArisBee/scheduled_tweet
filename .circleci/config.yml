@@ -6,13 +6,15 @@ jobs:
   build:
     docker:
       - image: cimg/ruby:3.0.0
-    executor: ruby/default
+    executor: ruby/defaultfzf
     steps:
       - checkout
       - run:
           name: Force Bundler Version
           command: |
             sudo apt-get update && sudo apt-get upgrade
+            sudo pip install trufflehog
+            truffleHog --regex .
             sudo apt-get install sqlite3 libsqlite3-dev
             sudo apt-get install cmake
             sudo gem update --system
