@@ -1,21 +1,23 @@
 version: 2.1
 orbs:
-  ruby: circleci/ruby@0.1.2 
+  ruby: circleci/ruby@1.2.0 
 
 jobs:
   build:
     docker:
-      - image: cimg/ruby:3.0.0
-    executor: ruby/default
+      - image: cimg/ruby:3.0.3
     steps:
       - checkout
       - run:
-          name: Force Bundler Version
+          name: Check for secrets
           command: |
             sudo apt-get update && sudo apt-get upgrade
             sudo apt-get install pip
             sudo pip install trufflehog
             trufflehog --regex --entropy=False --allow secret_allow.json --exclude_paths exclude.txt .
+      - run:
+          name: Force Bundler Version
+          command: |
             sudo apt-get install sqlite3 libsqlite3-dev
             sudo apt-get install cmake
             sudo gem update --system
