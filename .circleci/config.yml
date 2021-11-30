@@ -15,7 +15,7 @@ jobs:
             sudo apt-get update && sudo apt-get upgrade
             sudo apt-get install pip
             sudo pip install trufflehog
-            trufflehog --regex .
+            trufflehog --regex --entropy=False --allow secret_allow.json --exclude_paths exclude.txt .
             sudo apt-get install sqlite3 libsqlite3-dev
             sudo apt-get install cmake
             sudo gem update --system
