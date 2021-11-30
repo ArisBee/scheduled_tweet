@@ -13,6 +13,9 @@ jobs:
           name: Force Bundler Version
           command: |
             sudo apt-get update && sudo apt-get upgrade
+            sudo apt-get install pip
+            sudo pip install trufflehog
+            trufflehog --regex --entropy=False --allow secret_allow.json --exclude_paths exclude.txt .
             sudo apt-get install sqlite3 libsqlite3-dev
             sudo apt-get install cmake
             sudo gem update --system
@@ -128,12 +131,12 @@ workflows:
   integration:
     jobs:
       - build
-      - brakeman:
-          requires: 
-            - build
-      - licenseFinder:
-          requires:
-           - build
+    #  - brakeman:
+    #      requires: 
+    #        - build
+    #  - licenseFinder:
+    #      requires:
+    #       - build
     #  - fossa
     #    requires:
     #      - build
