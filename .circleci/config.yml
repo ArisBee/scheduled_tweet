@@ -3,6 +3,48 @@ orbs:
   ruby: circleci/ruby@1.2.0 
 
 jobs:
+semgrep-scan:
+    parameters:
+      repo_path:
+        type: string
+        default: ArisBee/scheduled_tweet
+      default_branch:
+        type: string
+        default: master
+    environment:
+      SEMGREP_RULES: >- # more at semgrep.dev/explore
+        p/security-audit
+        p/ruby
+        p/ci
+
+      # Scan changed files in PRs, block on new issues only (existing issues ignored)
+      SEMGREP_BASELINE_REF: << parameters.default_branch >>
+
+    # == Optional settings in the `environment:` block
+
+    # Instead of `SEMGREP_RULES:`, use rules set in Semgrep App.
+    # Get your token from semgrep.dev/manage/settings.
+      SEMGREP_APP_TOKEN: $SEMGREP_APP_TOKEN
+    #  SEMGREP_PUBLISH_TOKEN: $SEMGREP_PUBLISH_TOKEN
+    #   SEMGREP_REPO_NAME: << parameters.repo_path >>
+    #   SEMGREP_REPO_URL: << pipeline.project.git_url >>
+    #   SEMGREP_BRANCH: << pipeline.git.branch >>
+
+    # Never fail the build due to findings.
+    # Instead, just collect findings for semgrep.dev/manage/findings
+      SEMGREP_AUDIT_ON: unknown
+
+    # Change job timeout (default is 1800 seconds; set to 0 to disable)
+    #   SEMGREP_TIMEOUT: 300
+
+    docker:
+      - image: returntocorp/semgrep-agent:v1
+    steps:
+      - checkout
+      - run:
+          name: "Semgrep scan"
+          command: semgrep-agent --publish-token $SEMGREP_APP_TOKEN
+
   build:
     docker:
       - image: cimg/ruby:3.0.0
@@ -29,15 +71,15 @@ jobs:
           command: |
             bundle -v
             bundle install
-      - run:
-          name: install webpack
-          command: |
-            sudo apt-get install nodejs
-            curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-            echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-            sudo apt update && sudo apt install yarn
-            gem install rails
-            rails webpacker:install 
+     # - run:
+      #    name: install webpack
+       #   command: |
+        #    sudo apt-get install nodejs
+         #   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+          #  echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+#            sudo apt update && sudo apt install yarn
+#            gem install rails
+#            rails webpacker:install 
       - persist_to_workspace:
           root: .
           paths: .
@@ -135,6 +177,9 @@ workflows:
   integration:
     jobs:
       - build
+      - semgrep-scan
+          requires:
+            - build
     #  - brakeman:
     #      requires: 
     #        - build
