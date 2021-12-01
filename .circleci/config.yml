@@ -36,7 +36,7 @@ jobs:
       - checkout
       - run:
           name: "Semgrep scan"
-          command: semgrep-agent --publish-token ${SEMGREP_PUBLISH_TOKENN}
+          command: semgrep-agent --publish-token ${SEMGREP_APP_TOKEN}
 
   build:
     docker:
