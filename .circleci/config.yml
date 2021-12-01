@@ -170,7 +170,7 @@ workflows:
   integration:
     jobs:
       #  - build
-      - semgrep-scan:
+      - semgrep-scan
     #      requires:
     #        - build
     #  - brakeman:
