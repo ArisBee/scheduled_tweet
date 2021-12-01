@@ -21,7 +21,7 @@ jobs:
       # == Optional settings in the `environment:` block
       # Instead of `SEMGREP_RULES:`, use rules set in Semgrep App.
       # Get your token from semgrep.dev/manage/settings.
-      SEMGREP_APP_TOKEN: $SEMGREP_APP_TOKEN
+      SEMGREP_APP_TOKEN: ${SEMGREP_APP_TOKEN}
       #  SEMGREP_PUBLISH_TOKEN: $SEMGREP_PUBLISH_TOKEN
       #   SEMGREP_REPO_NAME: << parameters.repo_path >>
       #   SEMGREP_REPO_URL: << pipeline.project.git_url >>
