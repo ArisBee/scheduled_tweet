@@ -7,7 +7,7 @@ jobs:
     parameters:
       repo_path:
         type: string
-        default: .
+        default: project/
       default_branch:
         type: string
         default: master
