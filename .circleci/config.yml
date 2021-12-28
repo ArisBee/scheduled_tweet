@@ -7,7 +7,7 @@ jobs:
     parameters:
       repo_path:
         type: string
-        default: ArisBee/scheduled_tweet
+        default: .
       default_branch:
         type: string
         default: master
