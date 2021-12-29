@@ -187,6 +187,7 @@ workflows:
     jobs:
       #  - build
       - semgrep-scan
+      - semgrep
     #      requires:
     #        - build
     #  - brakeman:
