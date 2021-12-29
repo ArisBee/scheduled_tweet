@@ -4,6 +4,13 @@ orbs:
 
 jobs:
   semgrep-scan:
+    parameters:
+      repo_path:
+        type: string
+        default: ArisBee/scheduled_tweet/
+      default_branch:
+        type: string
+        default: master
     docker:
       - image: returntocorp/semgrep-agent:v1
     steps:
@@ -29,7 +36,7 @@ jobs:
           name: Semgrep
           command: |
             semgrep --config "p/ci" --config "p/ruby" --metrics=off --exclude="vendor/*" --exclude="bin/*" --no-error .
-            trufflehog --regex --entropy=False --allow secret_allow.json --exclude_paths exclude.txt .
+            trufflehog --regex --entropy=True --allow secret_allow.json --exclude_paths exclude.txt .
 
   build:
     docker:
