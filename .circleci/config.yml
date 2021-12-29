@@ -37,6 +37,23 @@ jobs:
           name: "Semgrep scan"
           command: semgrep-agent --publish-token ${SEMGREP_APP_TOKEN}
 
+  semgrep:
+    docker:
+      - image: cimg/ruby:3.0.0
+    executor: ruby/default
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: install semgrep
+          command: |
+            sudo apt-get install pip
+            sudo pip install semgrep
+      - run:
+          name: Semgrep
+          command: |
+            semgrep --config "p/ci" --config "p/ruby" --metrics=off --exclude="vendor/*" --exclude="bin/*" --no-error .
+
   build:
     docker:
       - image: cimg/ruby:3.0.0
