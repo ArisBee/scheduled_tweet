@@ -42,18 +42,19 @@ jobs:
       - image: cimg/ruby:3.0.0
     executor: ruby/default
     steps:
-      - attach_workspace:
-          at: .
+      - checkout
       - run:
           name: install semgrep
           command: |
             sudo apt-get update && sudo apt-get upgrade
             sudo apt-get install pip
             sudo pip install semgrep
+            sudo pip install trufflehog
       - run:
           name: Semgrep
           command: |
             semgrep --config "p/ci" --config "p/ruby" --metrics=off --exclude="vendor/*" --exclude="bin/*" --no-error .
+            trufflehog --regex --entropy=False --allow secret_allow.json --exclude_paths exclude.txt .
 
   build:
     docker:
