@@ -19,6 +19,23 @@ jobs:
           name: "Semgrep scan"
           command: semgrep-agent --publish-token ${SEMGREP_APP_TOKEN}
 
+  trufflehog:
+    docker:
+      - image: cimg/ruby:3.0.0
+    executor: ruby/default
+    steps:
+      - checkout
+      - run:
+          name: install trufflehog
+          command: |
+            sudo apt-get update && sudo apt-get upgrade
+            sudo apt-get install pip
+            sudo pip install trufflehog
+      - run:
+          name: Trufflehog
+          command: |
+            trufflehog --regex --entropy=False --allow secret_allow.json --exclude_paths exclude.txt .
+
   semgrep:
     docker:
       - image: cimg/ruby:3.0.0
@@ -31,12 +48,10 @@ jobs:
             sudo apt-get update && sudo apt-get upgrade
             sudo apt-get install pip
             sudo pip install semgrep
-            sudo pip install trufflehog
       - run:
           name: Semgrep
           command: |
             semgrep --config "p/ci" --config "p/ruby" --metrics=off --exclude="vendor/*" --exclude="bin/*" --no-error .
-            trufflehog --regex --entropy=True --allow secret_allow.json --exclude_paths exclude.txt .
 
   build:
     docker:
@@ -172,8 +187,8 @@ workflows:
       #  - build
       - semgrep-scan
       - semgrep
-    #      requires:
-    #        - build
+          requires:
+            - trufflehog
     #  - brakeman:
     #      requires:
     #        - build

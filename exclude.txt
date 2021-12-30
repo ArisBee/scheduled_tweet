@@ -1,1 +1,8 @@
 vendor/
+README.md
+Gemfile.lock
+yarn.lock
+package-lock.json
+config/credentials/development.yml.enc
+config/credentials.yml.enc
+.licenses/
