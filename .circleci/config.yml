@@ -185,6 +185,7 @@ workflows:
   integration:
     jobs:
       #  - build
+      - trufflehog
       - semgrep-scan
       - semgrep:
           requires:
