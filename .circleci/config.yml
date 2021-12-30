@@ -186,7 +186,7 @@ workflows:
     jobs:
       #  - build
       - semgrep-scan
-      - semgrep
+      - semgrep:
           requires:
             - trufflehog
     #  - brakeman:
