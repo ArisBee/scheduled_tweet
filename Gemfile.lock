@@ -224,7 +224,7 @@ GEM
       nio4r (~> 2.0)
     racc (1.6.0)
     rack (2.2.3)
-    rack-mini-profiler (2.3.3)
+    rack-mini-profiler (3.0.0)
       rack (>= 1.2.0)
     rack-protection (2.1.0)
       rack
@@ -369,7 +369,7 @@ DEPENDENCIES
   omniauth-rails_csrf_protection
   omniauth-twitter (~> 1.4)
   puma (~> 5.4)
-  rack-mini-profiler (~> 2.0)
+  rack-mini-profiler (~> 3.0)
   rails (~> 7.0.3)
   rexml
   sass-rails (>= 6)
