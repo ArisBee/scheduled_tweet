@@ -68,4 +68,4 @@ gem 'license_finder', :group => :development
 
 gem "twitter", "~> 7.0"
 
-gem "sidekiq", "~> 6.2"
+gem "sidekiq", "~> 6.4"
