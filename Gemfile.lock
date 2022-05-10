@@ -204,14 +204,14 @@ GEM
     octokit (4.22.0)
       faraday (>= 0.9)
       sawyer (~> 0.8.0, >= 0.5.3)
-    omniauth (2.0.4)
+    omniauth (2.1.0)
       hashie (>= 3.4.6)
-      rack (>= 1.6.2, < 3)
+      rack (>= 2.2.3)
       rack-protection
     omniauth-oauth (1.2.0)
       oauth
       omniauth (>= 1.0, < 3)
-    omniauth-rails_csrf_protection (1.0.0)
+    omniauth-rails_csrf_protection (1.0.1)
       actionpack (>= 4.2)
       omniauth (~> 2.0)
     omniauth-twitter (1.4.0)
@@ -226,7 +226,7 @@ GEM
     rack (2.2.3)
     rack-mini-profiler (2.3.3)
       rack (>= 1.2.0)
-    rack-protection (2.1.0)
+    rack-protection (2.2.0)
       rack
     rack-proxy (0.7.0)
       rack
