@@ -68,7 +68,7 @@ GEM
       tzinfo (~> 2.0)
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
-    bcrypt (3.1.16)
+    bcrypt (3.1.18)
     bindex (0.8.1)
     bootsnap (1.13.0)
       msgpack (~> 1.2)
@@ -357,7 +357,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  bcrypt (~> 3.1.7)
+  bcrypt (~> 3.1.18)
   bootsnap (>= 1.4.4)
   brakeman
   byebug
@@ -368,8 +368,8 @@ DEPENDENCIES
   listen (~> 3.7)
   omniauth-rails_csrf_protection
   omniauth-twitter (~> 1.4)
-  rack-mini-profiler (~> 3.0)
   puma (~> 6.0)
+  rack-mini-profiler (~> 3.0)
   rails (~> 7.0.3)
   rexml
   sass-rails (>= 6)
