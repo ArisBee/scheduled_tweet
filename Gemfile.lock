@@ -302,7 +302,8 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    sqlite3 (1.4.2)
+    sqlite3 (1.6.1-x86_64-darwin)
+    sqlite3 (1.6.1-x86_64-linux)
     strscan (3.0.2)
     thor (1.2.1)
     thread_safe (0.3.6)
@@ -368,15 +369,15 @@ DEPENDENCIES
   listen (~> 3.7)
   omniauth-rails_csrf_protection
   omniauth-twitter (~> 1.4)
-  rack-mini-profiler (~> 3.0)
   puma (~> 6.0)
+  rack-mini-profiler (~> 3.0)
   rails (~> 7.0.3)
   rexml
   sass-rails (>= 6)
   selenium-webdriver
   sidekiq (~> 6.4)
   spring
-  sqlite3 (~> 1.4)
+  sqlite3 (~> 1.6)
   turbolinks (~> 5)
   twitter (~> 7.0)
   tzinfo-data
